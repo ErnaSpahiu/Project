@@ -1,0 +1,43 @@
+<div class="main-content">
+  <div class="main-content__wrapper">
+    <div class="main-content__wrapper__top">
+      <label for="report">Choose a report</label>
+      <div class="main-content__wrapper__top__select">
+        <select #selected name="report" id="report">
+          <option value="firstReport">
+            Average selling price per seller type
+          </option>
+          <option value="secondReport">
+            Percentual distribution of available cars by brand
+          </option>
+          <option value="thirdReport">
+            Average price of the 30% most contacted listings
+          </option>
+          <option value="fourthReport">
+            The top 5 most contacted listings per month
+          </option>
+        </select>
+        <button (click)="getCsv(selected.value)">Generate</button>
+      </div>
+    </div>
+    <div
+      [ngStyle]="style"
+      *ngIf="showReport"
+      class="main-content__wrapper__bottom"
+    >
+      <div *ngFor="let eachRow of rowData; let i = index">
+        <h5 *ngIf="rowData.length > 1">Month: {{ months[i] }} 2020</h5>
+        <ag-grid-angular
+          #agGrid
+          style="width: 100%"
+          class="ag-theme-alpine main-content__wrapper__bottom__table"
+          [rowData]="eachRow"
+          [columnDefs]="columnDefs"
+          (gridReady)="onGridReady($event)"
+          domLayout="autoHeight"
+        >
+        </ag-grid-angular>
+      </div>
+    </div>
+  </div>
+</div>
